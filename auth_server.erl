@@ -79,7 +79,12 @@ save_token(Token, Login, State) ->
   dict:store(Token, {Login, Secs}, State).
 
 try_remove_token(Login, State) ->
-  dict:filter(fun(Key, Value) -> Value /= Login end, State).
+  io:format("Trying to remove token~n"),
+  io:format("Current: ~p~n", [dict:to_list(State)]),
+		
+  NewState = dict:filter(fun(Key, {L, T}) -> L /= Login end, State),
+  io:format("New: ~p~n", [dict:to_list(NewState)]),
+  NewState.
 
 generate_token() ->
   rand_string(10).
